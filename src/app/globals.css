@@ -1,26 +1,157 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* Stone, ink and warm metal: every value is taken from the hero sculpture. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+  --header-h: 4.5rem;
+  --background: #ebe9e5;
+  --foreground: #151514;
+  --card: #f4f2ef;
+  --card-foreground: #151514;
+  --popover: #f4f2ef;
+  --popover-foreground: #151514;
+  --primary: #151514;
+  --primary-foreground: #ebe9e5;
+  --secondary: #dedbd5;
+  --secondary-foreground: #151514;
+  --muted: #dedbd5;
+  --muted-foreground: #5b5851;
+  --accent: #dedbd5;
+  --accent-foreground: #151514;
+  --destructive: #a8321f;
+  --border: #cfcbc3;
+  --input: #8f8a80;
+  --ring: #7a5a34;
+  --metal: #7a5a34;
+  --ok: #3f6b4a;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #111110;
+  --foreground: #f1efea;
+  --card: #1a1918;
+  --card-foreground: #f1efea;
+  --popover: #1a1918;
+  --popover-foreground: #f1efea;
+  --primary: #f1efea;
+  --primary-foreground: #111110;
+  --secondary: #252422;
+  --secondary-foreground: #f1efea;
+  --muted: #252422;
+  --muted-foreground: #a8a39a;
+  --accent: #252422;
+  --accent-foreground: #f1efea;
+  --destructive: #e5796a;
+  --border: #2f2d2a;
+  --input: #6b665e;
+  --ring: #d3b083;
+  --metal: #d3b083;
+  --ok: #8fbf9b;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-metal: var(--metal);
+  --color-ok: var(--ok);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    @apply bg-background font-sans text-foreground;
+    transition:
+      background-color 0.6s ease,
+      color 0.6s ease;
+  }
+  ::selection {
+    background: var(--foreground);
+    color: var(--background);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Same gutters as the hero, so every section lines up with its copy. */
+@utility shell {
+  width: 100%;
+  padding-inline: clamp(20px, 3.2vw, 48px);
+}
+
+@utility section-y {
+  padding-block: clamp(72px, 9vw, 144px);
+}
+
+@utility title-xl {
+  font-size: clamp(2.5rem, 6vw, 5.75rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility title-lg {
+  font-size: clamp(2rem, 4vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility title-md {
+  font-size: clamp(1.375rem, 1.9vw, 1.875rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+}
+
+@utility lede {
+  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--muted-foreground);
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
