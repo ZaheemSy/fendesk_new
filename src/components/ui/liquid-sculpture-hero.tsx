@@ -1067,6 +1067,8 @@ export interface SculptureHeroProps {
   /** 1 = default size for the breakpoint. */
   sculptureScale?: number
   mobileSculptureScale?: number
+  /** 0 – 1: how far a portrait sculpture runs into the copy on phones. */
+  mobileOverlap?: number
   /** Offset in % of the hero width / height. */
   sculptureX?: number
   sculptureY?: number
@@ -1357,6 +1359,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
     loadFonts = true,
     sculptureScale = 1,
     mobileSculptureScale = 1,
+    mobileOverlap = 0.3,
     sculptureX = 0,
     sculptureY = 0,
     interactive = true,
@@ -1392,15 +1395,16 @@ export default function SculptureHero(props: SculptureHeroProps) {
   const aspectRef = React.useRef(1983 / 793)
   const [isTouch, setIsTouch] = React.useState(false)
 
-  const layout = React.useRef({ scale: sculptureScale, mobileScale: mobileSculptureScale, x: sculptureX, y: sculptureY })
+  const layout = React.useRef({ scale: sculptureScale, mobileScale: mobileSculptureScale, x: sculptureX, y: sculptureY, overlap: mobileOverlap })
   React.useLayoutEffect(() => {
     layout.current = {
       scale: clamp(sculptureScale, 0.3, 3),
       mobileScale: clamp(mobileSculptureScale, 0.3, 3),
       x: sculptureX,
       y: sculptureY,
+      overlap: clamp(mobileOverlap, 0, 1),
     }
-  }, [sculptureScale, mobileSculptureScale, sculptureX, sculptureY])
+  }, [sculptureScale, mobileSculptureScale, sculptureX, sculptureY, mobileOverlap])
 
   const [mode, setMode] = React.useState<"light" | "dark">(theme)
   // follow the theme prop without an effect round-trip
@@ -1474,7 +1478,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
       bottom: content ? content.offsetTop - 8 : h,
     }
     // a portrait sculpture on phones dissolves into the top of the copy
-    if (mob && aspectRef.current < 1.3 && content) band.bottom += content.offsetHeight * 0.3
+    if (mob && aspectRef.current < 1.3 && content) band.bottom += content.offsetHeight * layout.current.overlap
     const rect = computeRect(w, h, aspectRef.current, band, layout.current)
     const bd = backdropRef.current
     if (bd) {
@@ -1645,7 +1649,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
 
   React.useEffect(() => {
     relayout()
-  }, [sculptureScale, mobileSculptureScale, sculptureX, sculptureY, relayout])
+  }, [sculptureScale, mobileSculptureScale, sculptureX, sculptureY, mobileOverlap, relayout])
 
   const vars = {
     "--sh-bg": background,

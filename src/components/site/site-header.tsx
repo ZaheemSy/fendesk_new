@@ -65,7 +65,7 @@ export function SiteHeader() {
             <Button
               variant="ghost"
               size="icon"
-              className="size-11 rounded-full md:hidden"
+              className="-mr-3.5 size-11 rounded-full md:hidden"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="mobile-menu"

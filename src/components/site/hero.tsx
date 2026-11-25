@@ -33,6 +33,8 @@ export function Hero() {
       body="We design, build and run web platforms, mobile apps and the cloud systems underneath them, made to hold up long after launch day."
       primaryCta={{ label: "Start a project", href: "/contact" }}
       secondaryCta={{ label: "See our services", href: "/services" }}
+      // keep the sculpture clear of the copy on phones
+      mobileOverlap={0}
       ambient
       ambientIntensity={0.5}
       loadFonts={false}
